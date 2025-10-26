@@ -1,17 +1,31 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	fmt.Println("Калькулятор транзакций")
-	transactions := [5]int{1, 2, 3, 4, 5}
-	banks := [2]string{}
+	transactions := []float64{}
+	for {
+		transaction := scanTransaction()
+		if transaction == 0 {
+			break
+		}
+		transactions = append(transactions, transaction)
+	}
+	balance := calculateBalance(transactions)
+	fmt.Printf("Ваш баланс: %.2f", balance)
+}
 
-	fmt.Println(transactions[1])
-	banks[0] = "VTB"
-	fmt.Println(banks)
-	partial := transactions[1:4]
-	fmt.Println(partial)
+func scanTransaction() float64 {
+	var tr float64
+	fmt.Println("Введите транзакцию или (n для выхода): ")
+	fmt.Scan(&tr)
+	return tr
+}
+
+func calculateBalance(transactions []float64) float64 {
+	balance := 0.0
+	for _, value := range transactions {
+		balance += value
+	}
+	return balance
 }
